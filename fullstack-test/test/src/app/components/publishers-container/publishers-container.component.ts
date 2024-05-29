@@ -45,6 +45,9 @@ export class PublishersContainerComponent implements OnInit {
       this.isPublisher = false;
     } catch (error) {
       console.error('Error adding publisher:', error);
+      alert("Publisher name is already in exist.");
+      this.isPublisher = false;
+      this.publisherName = '';
     }
   }
   toggleDomain() {
@@ -61,6 +64,7 @@ export class PublishersContainerComponent implements OnInit {
       desktopAds: 0,
       mobileAds: 0,
     };
+    try{
     const addedDomain = await this.publisherService.addDomain(
       newPublisherName,
       newDomain
@@ -72,8 +76,13 @@ export class PublishersContainerComponent implements OnInit {
       foundPublisher.domains.push(addedDomain);
       this.isDomain = false;
       this.publisherName = '';
-    } else {
-      console.warn('Publisher with specified domain not found.');
     }
+  } catch (error) {
+     console.warn('Publisher name is not found.');
+      alert("Publisher name is not found.");
+      this.isDomain = false;
+      this.publisherName = '';
+  }
+
   }
 }
